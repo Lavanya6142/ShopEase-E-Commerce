@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Products | ShopEase</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        .admin-title {
+            font-size: 15px;
+            color: #d1d5db;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .page-heading p {
+            margin-top: 6px;
+            color: #6b7280;
+        }
+
+        .refresh-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .refresh-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* MESSAGE */
+
+        #message {
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* FORM */
+
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            margin-bottom: 30px;
+        }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #374151;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* IMAGE PREVIEW */
+
+        .image-preview-box {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .image-preview-box p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        #imagePreview {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #f3f4f6;
+        }
+
+        /* BUTTONS */
+
+        .form-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+        }
+
+        .save-btn {
+            background: #16a34a;
+        }
+
+        .save-btn:hover {
+            background: #15803d;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background: #4b5563;
+        }
+
+        /* PRODUCTS */
+
+        .products-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .products-header h2 {
+            color: #111827;
+        }
+
+        .product-count {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* PRODUCT GRID */
+
+        #productsContainer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            background: #f3f4f6;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-info h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .description {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            min-height: 35px;
+        }
+
+        .category {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 19px;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 6px;
+        }
+
+        .quantity {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 14px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            flex: 1;
+            border: none;
+            padding: 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+        }
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* LOADING */
+
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .loading i {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            color: #6b7280;
+        }
+
+        .empty i {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            #productsContainer {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            #productsContainer {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-heading {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            #productsContainer {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            Shop<span>Ease</span>
+        </div>
+
+        <div class="admin-title">
+            <i class="fa-solid fa-user-shield"></i>
+            Admin Panel
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <div class="page-heading">
+
+            <div>
+
+                <h1>Product Management</h1>
+
+                <p>Add, edit and manage your products.</p>
+
+            </div>
+
+            <button class="refresh-btn" onclick="loadProducts()">
+
+                <i class="fa-solid fa-rotate"></i>
+
+                Refresh Products
+
+            </button>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div id="message"></div>
+
+
+        <!-- ADD PRODUCT -->
+
+        <section class="form-box">
+
+            <h2 id="formTitle">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add New Product
+
+            </h2>
+
+
+            <form id="productForm">
+
+                <input type="hidden" id="productId">
+
+
+                <div class="form-grid">
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <div class="input-group">
+
+                        <label for="productName">
+                            Product Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productName"
+                            placeholder="Enter product name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="input-group">
+
+                        <label for="productPrice">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productPrice"
+                            placeholder="Enter price"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="input-group">
+
+                        <label for="productQuantity">
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productQuantity"
+                            placeholder="Enter quantity"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="input-group">
+
+                        <label for="productCategory">
+                            Category
+                        </label>
+
+                        <select id="productCategory" required>
+
+                            <option value="">
+                                Loading categories...
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="input-group full-width">
+
+                        <label for="productDescription">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="productDescription"
+                            placeholder="Enter product description"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- IMAGE URL -->
+
+                    <div class="input-group full-width">
+
+                        <label for="productImage">
+                            Image URL
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productImage"
+                            placeholder="Paste product image URL"
+                        >
+
+                    </div>
+
+
+                    <!-- IMAGE PREVIEW -->
+
+                    <div
+                        class="image-preview-box full-width"
+                        id="imagePreviewBox"
+                    >
+
+                        <p>Image Preview:</p>
+
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="Product Preview"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-buttons">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveButton"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add Product
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelButton"
+                        onclick="cancelEdit()"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                        Cancel
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- PRODUCTS -->
+
+        <section class="products-box">
+
+            <div class="products-header">
+
+                <h2>
+
+                    <i class="fa-solid fa-box"></i>
+
+                    Products
+
+                </h2>
+
+                <span
+                    class="product-count"
+                    id="productCount"
+                >
+                    0 products
+                </span>
+
+            </div>
+
+
+            <div id="productsContainer">
+
+                <div class="loading">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    <p>Loading products...</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 ShopEase Admin Panel
+
+    </footer>
+
+
+    <script>
+
+        /*
+         * IMPORTANT
+         *
+         * Your Spring Boot ProductController uses:
+         *
+         * @RequestMapping("/products")
+         *
+         * Therefore the correct URL is:
+         */
+
+        const API_URL = "http://localhost:8080/products";
+
+        const CATEGORY_URL = "http://localhost:8080/categories";
+
+
+        /*
+         * ELEMENTS
+         */
+
+        const productForm =
+            document.getElementById("productForm");
+
+        const productId =
+            document.getElementById("productId");
+
+        const productName =
+            document.getElementById("productName");
+
+        const productDescription =
+            document.getElementById("productDescription");
+
+        const productPrice =
+            document.getElementById("productPrice");
+
+        const productQuantity =
+            document.getElementById("productQuantity");
+
+        const productCategory =
+            document.getElementById("productCategory");
+
+        const productImage =
+            document.getElementById("productImage");
+
+        const productsContainer =
+            document.getElementById("productsContainer");
+
+        const productCount =
+            document.getElementById("productCount");
+
+        const message =
+            document.getElementById("message");
+
+        const formTitle =
+            document.getElementById("formTitle");
+
+        const saveButton =
+            document.getElementById("saveButton");
+
+        const cancelButton =
+            document.getElementById("cancelButton");
+
+        const imagePreview =
+            document.getElementById("imagePreview");
+
+        const imagePreviewBox =
+            document.getElementById("imagePreviewBox");
+
+
+        /*
+         * LOAD DATA WHEN PAGE OPENS
+         */
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            loadCategories();
+
+            loadProducts();
+
+        });
+
+
+        /*
+         * LOAD CATEGORIES
+         */
+
+        async function loadCategories() {
+
+            try {
+
+                const response =
+                    await fetch(CATEGORY_URL);
+
+                if (!response.ok) {
+
+                    throw new Error("Unable to load categories");
+
+                }
+
+                const categories =
+                    await response.json();
+
+
+                productCategory.innerHTML = `
+                    <option value="">
+                        Select Category
+                    </option>
+                `;
+
+
+                categories.forEach(function (category) {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = category.id;
+
+                    option.textContent = category.name;
+
+                    productCategory.appendChild(option);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                productCategory.innerHTML = `
+                    <option value="">
+                        Unable to load categories
+                    </option>
+                `;
+
+                showMessage(
+                    "Unable to load categories.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * IMAGE PREVIEW
+         */
+
+        productImage.addEventListener("input", function () {
+
+            const url =
+                productImage.value.trim();
+
+
+            if (url !== "") {
+
+                imagePreview.src = url;
+
+                imagePreviewBox.style.display =
+                    "block";
+
+            } else {
+
+                imagePreviewBox.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+        /*
+         * IMAGE ERROR
+         */
+
+        imagePreview.addEventListener("error", function () {
+
+            imagePreview.alt =
+                "Unable to load image";
+
+        });
+
+
+        /*
+         * SHOW MESSAGE
+         */
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className = type;
+
+            message.style.display = "block";
+
+
+            setTimeout(function () {
+
+                message.style.display = "none";
+
+            }, 4000);
+
+        }
+
+
+        /*
+         * LOAD ALL PRODUCTS
+         */
+
+        async function loadProducts() {
+
+            productsContainer.innerHTML = `
+
+                <div class="loading">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    <p>Loading products...</p>
+
+                </div>
+
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(API_URL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load products"
+                    );
+
+                }
+
+
+                const products =
+                    await response.json();
+
+
+                displayProducts(products);
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                productsContainer.innerHTML = `
+
+                    <div class="empty">
+
+                        <i class="fa-solid fa-server"></i>
+
+                        <h3>
+                            Unable to load products
+                        </h3>
+
+                        <p>
+                            Please make sure the backend
+                            server is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                productCount.textContent =
+                    "0 products";
+
+            }
+
+        }
+
+
+        /*
+         * DISPLAY PRODUCTS
+         */
+
+        function displayProducts(products) {
+
+            if (!products || products.length === 0) {
+
+                productsContainer.innerHTML = `
+
+                    <div class="empty">
+
+                        <i class="fa-solid fa-box-open"></i>
+
+                        <h3>
+                            No products found
+                        </h3>
+
+                        <p>
+                            Add your first product above.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                productCount.textContent =
+                    "0 products";
+
+                return;
+
+            }
+
+
+            productCount.textContent =
+                products.length +
+                (products.length === 1
+                    ? " product"
+                    : " products");
+
+
+            productsContainer.innerHTML =
+                products
+                    .map(product => createProductCard(product))
+                    .join("");
+
+        }
+
+
+        /*
+         * CREATE PRODUCT CARD
+         */
+
+        function createProductCard(product) {
+
+            const id =
+                product.id;
+
+
+            const name =
+                product.name ||
+                "Unnamed Product";
+
+
+            const description =
+                product.description ||
+                "No description available";
+
+
+            const price =
+                product.price !== undefined &&
+                product.price !== null
+                    ? Number(product.price).toFixed(2)
+                    : "0.00";
+
+
+            const quantity =
+                product.quantity !== undefined &&
+                product.quantity !== null
+                    ? product.quantity
+                    : 0;
+
+
+            /*
+             * IMPORTANT
+             *
+             * Backend returns:
+             *
+             * category: {
+             *     name: "Electronics",
+             *     id: 2
+             * }
+             */
+
+            const category =
+                product.category &&
+                product.category.name
+                    ? product.category.name
+                    : "Other";
+
+
+            /*
+             * IMAGE
+             *
+             * Existing products currently have
+             * imageUrl = null.
+             *
+             * Therefore we show a simple placeholder
+             * until an image URL is saved.
+             */
+
+            const image =
+                product.imageUrl &&
+                product.imageUrl.trim() !== ""
+                    ? product.imageUrl
+                    : "https://placehold.co/400x300?text=No+Image";
+
+
+            return `
+
+                <div class="product-card">
+
+                    <img
+                        class="product-image"
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(name)}"
+                        onerror="this.src='https://placehold.co/400x300?text=No+Image'"
+                    >
+
+
+                    <div class="product-info">
+
+                        <h3>
+                            ${escapeHtml(name)}
+                        </h3>
+
+
+                        <div class="description">
+                            ${escapeHtml(description)}
+                        </div>
+
+
+                        <span class="category">
+                            ${escapeHtml(category)}
+                        </span>
+
+
+                        <div class="price">
+                            ₹${price}
+                        </div>
+
+
+                        <div class="quantity">
+                            Quantity: ${quantity}
+                        </div>
+
+
+                        <div class="product-actions">
+
+                            <button
+                                class="edit-btn"
+                                onclick="editProduct(${id})"
+                            >
+
+                                <i class="fa-solid fa-pen"></i>
+
+                                Edit
+
+                            </button>
+
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteProduct(${id})"
+                            >
+
+                                <i class="fa-solid fa-trash"></i>
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /*
+         * ESCAPE HTML
+         */
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /*
+         * ADD / UPDATE PRODUCT
+         */
+
+        productForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const id =
+                    productId.value;
+
+
+                /*
+                 * CATEGORY ID
+                 */
+
+                const categoryId =
+                    Number(productCategory.value);
+
+
+                /*
+                 * PRODUCT DATA
+                 *
+                 * IMPORTANT:
+                 * Backend expects category as an object.
+                 */
+
+                const productData = {
+
+                    name:
+                        productName.value.trim(),
+
+                    description:
+                        productDescription.value.trim(),
+
+                    price:
+                        Number(productPrice.value),
+
+                    quantity:
+                        Number(productQuantity.value),
+
+                    imageUrl:
+                        productImage.value.trim(),
+
+                    category: {
+                        id: categoryId
+                    }
+
+                };
+
+
+                /*
+                 * CHECK INPUT
+                 */
+
+                if (!productData.name) {
+
+                    showMessage(
+                        "Please enter product name.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    productPrice.value === "" ||
+                    productData.price < 0
+                ) {
+
+                    showMessage(
+                        "Please enter a valid price.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    productQuantity.value === "" ||
+                    productData.quantity < 0
+                ) {
+
+                    showMessage(
+                        "Please enter a valid quantity.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!productData.description) {
+
+                    showMessage(
+                        "Please enter product description.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!categoryId) {
+
+                    showMessage(
+                        "Please select a category.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    let response;
+
+
+                    /*
+                     * UPDATE
+                     */
+
+                    if (id) {
+
+                        response =
+                            await fetch(
+                                API_URL + "/" + id,
+                                {
+                                    method: "PUT",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            productData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    /*
+                     * ADD
+                     */
+
+                    else {
+
+                        response =
+                            await fetch(
+                                API_URL,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            productData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    if (!response.ok) {
+
+                        const errorText =
+                            await response.text();
+
+                        console.error(errorText);
+
+                        throw new Error(
+                            "Request failed"
+                        );
+
+                    }
+
+
+                    /*
+                     * SUCCESS
+                     */
+
+                    if (id) {
+
+                        showMessage(
+                            "Product updated successfully!",
+                            "success"
+                        );
+
+                    } else {
+
+                        showMessage(
+                            "Product added successfully!",
+                            "success"
+                        );
+
+                    }
+
+
+                    /*
+                     * RESET
+                     */
+
+                    resetForm();
+
+
+                    /*
+                     * RELOAD
+                     */
+
+                    loadProducts();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showMessage(
+                        "Unable to save product.",
+                        "error"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * EDIT PRODUCT
+         */
+
+        async function editProduct(id) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "/" + id
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Product not found"
+                    );
+
+                }
+
+
+                const product =
+                    await response.json();
+
+
+                /*
+                 * FILL FORM
+                 */
+
+                productId.value =
+                    product.id;
+
+
+                productName.value =
+                    product.name || "";
+
+
+                productDescription.value =
+                    product.description || "";
+
+
+                productPrice.value =
+                    product.price || "";
+
+
+                productQuantity.value =
+                    product.quantity || "";
+
+
+                /*
+                 * CATEGORY
+                 *
+                 * Backend gives category object.
+                 */
+
+                if (
+                    product.category &&
+                    product.category.id
+                ) {
+
+                    productCategory.value =
+                        product.category.id;
+
+                } else {
+
+                    productCategory.value =
+                        "";
+
+                }
+
+
+                productImage.value =
+                    product.imageUrl || "";
+
+
+                /*
+                 * IMAGE PREVIEW
+                 */
+
+                if (productImage.value) {
+
+                    imagePreview.src =
+                        productImage.value;
+
+                    imagePreviewBox.style.display =
+                        "block";
+
+                } else {
+
+                    imagePreviewBox.style.display =
+                        "none";
+
+                }
+
+
+                /*
+                 * CHANGE FORM
+                 */
+
+                formTitle.innerHTML = `
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    Edit Product
+
+                `;
+
+
+                saveButton.innerHTML = `
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Update Product
+
+                `;
+
+
+                cancelButton.style.display =
+                    "inline-block";
+
+
+                /*
+                 * SCROLL TO FORM
+                 */
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to load product details.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * DELETE PRODUCT
+         */
+
+        async function deleteProduct(id) {
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this product?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "/" + id,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Delete failed"
+                    );
+
+                }
+
+
+                showMessage(
+                    "Product deleted successfully!",
+                    "success"
+                );
+
+
+                loadProducts();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to delete product.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * CANCEL EDIT
+         */
+
+        function cancelEdit() {
+
+            resetForm();
+
+        }
+
+
+        /*
+         * RESET FORM
+         */
+
+        function resetForm() {
+
+            productForm.reset();
+
+            productId.value = "";
+
+
+            formTitle.innerHTML = `
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add New Product
+
+            `;
+
+
+            saveButton.innerHTML = `
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Product
+
+            `;
+
+
+            cancelButton.style.display =
+                "none";
+
+
+            imagePreviewBox.style.display =
+                "none";
+
+
+            imagePreview.src = "";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

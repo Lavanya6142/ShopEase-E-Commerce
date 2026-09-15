@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Orders</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .order-card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-card h2 {
+            margin-top: 0;
+        }
+
+        .order-details {
+            line-height: 1.8;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .no-orders {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+
+    /* Admin Order Buttons */
+
+.order-card button {
+    border: none;
+    padding: 10px 18px;
+    margin: 5px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Update Status Button */
+
+.order-card button[onclick^="updateOrderStatus"] {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.order-card button[onclick^="updateOrderStatus"]:hover {
+    background-color: #1b5e20;
+    transform: translateY(-2px);
+}
+
+/* Delete Order Button */
+
+.order-card button[onclick^="deleteOrder"] {
+    background-color: #c62828;
+    color: white;
+}
+
+.order-card button[onclick^="deleteOrder"]:hover {
+    background-color: #8e0000;
+    transform: translateY(-2px);
+}
+
+/* Status Dropdown */
+
+.order-card select {
+    padding: 9px 12px;
+    margin: 5px 8px 5px 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.order-card select:focus {
+    outline: none;
+    border-color: #2e7d32;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Order Management</h1>
+
+    <div class="orders-container" id="ordersContainer">
+
+        <p class="no-orders">Loading orders...</p>
+
+    </div>
+
+    <script>
+
+        async function loadOrders() {
+
+            const ordersContainer =
+                document.getElementById("ordersContainer");
+
+            try {
+
+             const token = localStorage.getItem("token");
+
+      const response =
+    await fetch("http://localhost:8080/orders", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });  
+
+                if (!response.ok) {
+                    throw new Error("Failed to load orders");
+                }
+
+                const orders = await response.json();
+
+                ordersContainer.innerHTML = "";
+
+                if (orders.length === 0) {
+
+                    ordersContainer.innerHTML =
+                        '<p class="no-orders">No orders found.</p>';
+
+                    return;
+                }
+
+                orders.forEach(function (order) {
+
+                    const orderCard =
+                        document.createElement("div");
+
+                    orderCard.className = "order-card";
+
+                    orderCard.innerHTML = `
+                        <h2>Order #${order.id}</h2>
+
+                        <div class="order-details">
+
+                            <p>
+                                <strong>Customer Name:</strong>
+                                ${order.customerName || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Email:</strong>
+                                ${order.customerEmail || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Phone:</strong>
+                                ${order.phone || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Address:</strong>
+                                ${order.address || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>City:</strong>
+                                ${order.city || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Pincode:</strong>
+                                ${order.pincode || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Payment:</strong>
+                                ${order.payment || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Order Date:</strong>
+                                ${order.orderDate || "N/A"}
+                            </p>
+
+                            <p>
+                                <strong>Total Amount:</strong>
+                                ₹${order.totalAmount || 0}
+                            </p>
+
+                            <p>
+    <strong>Status:</strong>
+
+    <select id="status-${order.id}">
+        <option value="PLACED" ${order.status === "PLACED" ? "selected" : ""}>
+            PLACED
+        </option>
+
+        <option value="CONFIRMED" ${order.status === "CONFIRMED" ? "selected" : ""}>
+            CONFIRMED
+        </option>
+
+        <option value="SHIPPED" ${order.status === "SHIPPED" ? "selected" : ""}>
+            SHIPPED
+        </option>
+
+        <option value="DELIVERED" ${order.status === "DELIVERED" ? "selected" : ""}>
+            DELIVERED
+        </option>
+    </select>
+
+    <button onclick="updateOrderStatus(${order.id})">
+        Update Status
+    </button>
+
+    <button onclick="deleteOrder(${order.id})">
+    Delete Order
+</button>
+
+</p>
+
+                        </div>
+                    `;
+
+                    ordersContainer.appendChild(orderCard);
+
+                });
+
+            } catch (error) {
+
+                console.error("Order Loading Error:", error);
+
+                ordersContainer.innerHTML =
+                    '<p class="no-orders">Unable to load orders. Please make sure the backend server is running.</p>';
+            }
+        }
+
+     async function updateOrderStatus(orderId) {
+
+    const status =
+        document.getElementById("status-" + orderId).value;
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/orders/" + orderId,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to update order status");
+        }
+
+        alert("Order status updated successfully!");
+
+        loadOrders();
+
+    } catch (error) {
+
+        console.error("Status Update Error:", error);
+
+        alert("Unable to update order status.");
+    }
+}
+
+async function deleteOrder(orderId) {
+
+    const confirmDelete =
+        confirm("Are you sure you want to delete Order #" + orderId + "?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        const token = localStorage.getItem("token");
+
+const response = await fetch(
+    `http://localhost:8080/orders/${orderId}`,
+    {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    }
+);
+        if (!response.ok) {
+            throw new Error("Failed to delete order");
+        }
+
+        alert("Order deleted successfully!");
+
+        loadOrders();
+
+    } catch (error) {
+
+        console.error("Delete Order Error:", error);
+
+        alert("Unable to delete the order.");
+    }
+}
+
+        loadOrders();
+
+    </script>
+
+</body>
+
+</html>

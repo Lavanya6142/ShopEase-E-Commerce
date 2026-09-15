@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="ShopEase Shopping Cart">
+
+    <title>ShopEase | Shopping Cart</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <div class="container header-container">
+
+            <a href="index.html" class="logo">
+                Shop<span>Ease</span>
+            </a>
+
+
+            <nav class="navbar">
+
+                <a href="index.html">Home</a>
+                <a href="index.html#categories">Categories</a>
+                <a href="index.html#products">Products</a>
+                <a href="index.html#offers">Offers</a>
+
+            </nav>
+
+
+            <div class="header-actions">
+
+                <a href="index.html" class="login-btn">
+                    Continue Shopping
+                </a>
+
+                <a href="cart.html" class="cart-btn">
+                    Cart
+                    <span class="cart-count">0</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- Cart Section -->
+
+    <section class="cart-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span>SHOPPING CART</span>
+
+                <h2>Your Cart</h2>
+
+                <p>Review your selected products before checkout.</p>
+
+            </div>
+
+
+            <!-- Cart Products -->
+
+            <div id="cartItems" class="cart-items">
+
+                <!-- Products will be added here using JavaScript -->
+
+            </div>
+
+
+            <!-- Cart Summary -->
+
+          <div id="cartSummary" class="cart-summary">
+
+    <h3>Order Summary</h3>
+
+    <div class="summary-row">
+
+        <span>Subtotal</span>
+        <span id="cartTotal">₹0</span>
+
+    </div>
+
+    <div class="summary-row">
+
+        <span>Delivery</span>
+        <span>FREE</span>
+
+    </div>
+
+    <div class="summary-total">
+
+        <span>Total</span>
+        <span id="finalTotal">₹0</span>
+
+    </div>
+
+    <a href="index.html#products" class="continue-shopping">
+        Continue Shopping
+    </a>
+
+   <a href="checkout.html" class="checkout-btn">
+    Proceed to Checkout →
+</a>
+
+</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+                    © 2026 ShopEase. All Rights Reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

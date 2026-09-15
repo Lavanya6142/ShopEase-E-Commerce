@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="ShopEase secure checkout page">
+
+    <title>ShopEase | Checkout</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <div class="container header-container">
+
+            <a href="index.html" class="logo">
+                Shop<span>Ease</span>
+            </a>
+
+            <nav class="navbar">
+
+                <a href="index.html">Home</a>
+                <a href="index.html#categories">Categories</a>
+                <a href="index.html#products">Products</a>
+                <a href="cart.html">Cart</a>
+
+            </nav>
+
+            <div class="header-actions">
+
+                <a href="cart.html" class="cart-btn">
+                    Cart
+                    <span class="cart-count">0</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- Checkout Section -->
+
+    <section class="checkout-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span>SECURE CHECKOUT</span>
+
+                <h2>Complete Your Order</h2>
+
+                <p>
+                    Enter your details and review your order before placing it.
+                </p>
+
+            </div>
+
+
+            <div class="checkout-layout">
+
+
+                <!-- Customer Details -->
+
+                <div class="checkout-form-container">
+
+                    <h3>Delivery Information</h3>
+
+                    <form id="checkoutForm">
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="fullName">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    placeholder="Enter your full name"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Enter your email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                placeholder="Enter your phone number"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="address">
+                                Delivery Address
+                            </label>
+
+                            <textarea
+                                id="address"
+                                rows="4"
+                                placeholder="Enter your complete address"
+                                required></textarea>
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="city">
+                                    City
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="city"
+                                    placeholder="Enter your city"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="pincode">
+                                    PIN Code
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="pincode"
+                                    placeholder="Enter PIN code"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <h3 class="payment-heading">
+                            Payment Method
+                        </h3>
+
+
+                        <div class="payment-options">
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="cod"
+                                    checked>
+
+                                <span>
+                                    Cash on Delivery
+                                </span>
+
+                            </label>
+
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="online">
+
+                                <span>
+                                    Online Payment
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="place-order-btn">
+
+                            Place Order
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Order Summary -->
+
+                <div class="checkout-summary">
+
+                    <h3>Order Summary</h3>
+
+                    <div id="checkoutItems">
+
+                        <!-- Cart products will appear here -->
+
+                    </div>
+
+
+                    <div class="checkout-summary-row">
+
+                        <span>Subtotal</span>
+
+                        <span id="checkoutSubtotal">
+                            ₹0
+                        </span>
+
+                    </div>
+
+
+                    <div class="checkout-summary-row">
+
+                        <span>Delivery</span>
+
+                        <span>
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="checkout-total">
+
+                        <span>Total</span>
+
+                        <span id="checkoutTotal">
+                            ₹0
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="cart.html"
+                        class="back-cart-btn">
+
+                        ← Back to Cart
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+                    © 2026 ShopEase. All Rights Reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
