@@ -85,9 +85,12 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
-            List.of("http://127.0.0.1:5500")
-        );
+       configuration.setAllowedOrigins(
+    List.of(
+        "http://127.0.0.1:5500",
+        "https://lavanya6142.github.io"
+    )
+);
 
         configuration.setAllowedMethods(
             List.of(
