@@ -133,7 +133,7 @@
              const token = localStorage.getItem("token");
 
       const response =
-    await fetch("http://localhost:8080/orders", {
+    await fetch("https://shopease-e-commerce-production.up.railway.app/orders", {
         headers: {
             "Authorization": "Bearer " + token
         }
@@ -267,7 +267,7 @@
     try {
 
         const response = await fetch(
-            "http://localhost:8080/orders/" + orderId,
+            "https://shopease-e-commerce-production.up.railway.app/orders/" + orderId,
             {
                 method: "PUT",
                 headers: {
@@ -309,7 +309,7 @@ async function deleteOrder(orderId) {
         const token = localStorage.getItem("token");
 
 const response = await fetch(
-    `http://localhost:8080/orders/${orderId}`,
+    `https://shopease-e-commerce-production.up.railway.app/orders/${orderId}`,
     {
         method: "DELETE",
         headers: {

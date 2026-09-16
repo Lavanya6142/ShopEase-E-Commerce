@@ -653,7 +653,7 @@ if (payment === "online") {
 
                 // Send COD order to Spring Boot
                 const response = await fetch(
-                    "http://localhost:8080/orders",
+                    "https://shopease-e-commerce-production.up.railway.app/orders",
                     {
                         method: "POST",
 
@@ -1687,7 +1687,7 @@ async function loadOrders() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/orders",
+            "https://shopease-e-commerce-production.up.railway.app/orders",
             {
                 method: "GET",
 
@@ -1937,7 +1937,7 @@ async function cancelOrder(orderId) {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/orders/" + orderId + "/cancel",
+            "https://shopease-e-commerce-production.up.railway.app/orders/" + orderId + "/cancel",
             {
                 method: "PUT",
                 headers: {
@@ -1989,7 +1989,7 @@ if (loginForm) {
         try {
 
             const response = await fetch(
-                "http://localhost:8080/auth/login",
+                "https://shopease-e-commerce-production.up.railway.app/auth/login",
                 {
                     method: "POST",
 
